@@ -3,7 +3,9 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Models\Category;
+use App\Finance\Categories\Entities\CategoryEntity;
+use App\Finance\Categories\Services\CategoryService;
+use App\Finance\Categories\Repositories\CategoryRepository;
 
 class CategoryTest extends TestCase
 {
@@ -11,17 +13,16 @@ class CategoryTest extends TestCase
     {
         parent::setUp();
 
+        $this->categoryRepository = new CategoryRepository(new CategoryEntity);
+        $this->categoryService = new CategoryService($this->categoryRepository);
+
+        $this->category = ['description' => fake()->name];
+
     }
     public function test_se_consigo_criar_uma_categoria()
     {
-        $data = [
-            'description' => fake()->name
-        ];
+        $this->categoryService->save($this->category);
 
-        $response = Category::create($data);
-
-        $this->assertDatabaseHas('categories', $data);
-
-
+        $this->assertDatabaseHas('categories', $this->category);
     }
 }
