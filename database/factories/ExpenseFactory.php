@@ -1,0 +1,32 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Category;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Expense>
+ */
+class ExpenseFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        $user = User::all()->pluck('id');
+        $category = Category::all()->pluck('id');
+
+        return [
+            'user_id' => fake()->randomElement($user),
+            'category_id' => fake()->randomElement($category),
+            'date' => fake()->date,
+            'description' => fake()->sentence,
+            'value' => fake()->randomFloat(2, 1, 1000)
+        ];
+    }
+}

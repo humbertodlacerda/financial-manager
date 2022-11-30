@@ -13,7 +13,7 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
-    protected $filable = [
+    protected $fillable = [
         'description'
     ];
 
