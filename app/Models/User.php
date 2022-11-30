@@ -7,6 +7,7 @@ use App\Models\Expense;
 use App\Models\Revenue;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,18 +51,18 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function expense(): BelongsTo
+    public function expense(): HasMany
     {
-        return $this->belongsTo(Expense::class, 'category_id', 'id');
+        return $this->hasMany(Expense::class, 'category_id');
     }
 
     /**
-     * Get the revenue that owns the Category
+     * Get all of the revenue for the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function revenue(): BelongsTo
+    public function revenue(): HasMany
     {
-        return $this->belongsTo(Revenue::class, 'category_id', 'id');
+        return $this->hasMany(Revenue::class, 'user_id');
     }
 }

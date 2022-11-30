@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Expense extends Model
@@ -11,7 +12,7 @@ class Expense extends Model
     use HasFactory;
 
     protected $table = 'expenses';
-    protected $filable = [
+    protected $fillable = [
         'date',
         'description',
         'value'
@@ -22,8 +23,8 @@ class Expense extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function user(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
