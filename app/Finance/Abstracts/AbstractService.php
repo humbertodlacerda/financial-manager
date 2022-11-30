@@ -13,7 +13,7 @@ class AbstractService implements ServiceInterface
 
     public function getAll()
     {
-        return $this->repository->getAll();
+        return $this->repository->all();
     }
 
     public function find(int $id)
@@ -26,9 +26,9 @@ class AbstractService implements ServiceInterface
         return $this->repository->create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update(array $data, int $id)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($data, $id);
     }
 
     public function delete(int $id)
