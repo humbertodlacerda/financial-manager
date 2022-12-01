@@ -6,7 +6,7 @@ use App\Models\Expense;
 use App\Models\Revenue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -22,9 +22,9 @@ class Category extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function expense(): BelongsTo
+    public function expense(): HasMany
     {
-        return $this->belongsTo(Expense::class, 'category_id', 'id');
+        return $this->hasMany(Expense::class, 'category_id', 'id');
     }
 
     /**
@@ -32,8 +32,8 @@ class Category extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function revenue(): BelongsTo
+    public function revenue(): HasMany
     {
-        return $this->belongsTo(Revenue::class, 'category_id', 'id');
+        return $this->hasMany(Revenue::class, 'category_id', 'id');
     }
 }

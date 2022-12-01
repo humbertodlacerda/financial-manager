@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->date('date');
-            $table->string('description');
+            $table->string('description', 191);
             $table->decimal('value');
             $table->timestamps();
         });
