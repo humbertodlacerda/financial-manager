@@ -36,8 +36,8 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->model->find($id)->update($data);
     }
 
-    public function destroy(int $id)
+    public function delete(int $id)
     {
-        return $this->model->delete($id);
+        return $this->model->find($id)->delete();
     }
 }

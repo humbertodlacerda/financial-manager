@@ -33,6 +33,6 @@ class AbstractService implements ServiceInterface
 
     public function delete(int $id)
     {
-        return $this->repository->destroy($id);
+        return $this->repository->delete($id);
     }
 }
