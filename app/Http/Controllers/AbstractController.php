@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AbstractController extends Controller
 {
+    protected $requestValidate;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +30,22 @@ class AbstractController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            if($this->requestValidate) {
+                $requestValidate = app($this->requestValidate);
+                $this->validated = $request->validate($requestValidate->rules());
+            }
+        } catch (ValidationException $e) {
+            return $this->error($this->messageErrorDefault, $e->errors());
+        }
+
         $response = $this->service->save($request->all());
+        
+        if ($response instanceof \Exception) {
+            return $this->error($this->messageErrorDefault,
+            ["message" => "Não foi possível criar o objeto."]);
+        }
+
         return response()->json($response);
     }
 

@@ -2,21 +2,27 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Category;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CategoryTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * Undocumented function
      *
      * @return void
      */
-    public function test_example()
+    protected function setUp(): void
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        parent::setUp();
+        
+        $this->category = Category::factory()->make()->toArray();
+    }
+    
+    public function test_create_category()
+    {
+        $this->post('/category', [$this->category])->assertStatus(200);
     }
 }

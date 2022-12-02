@@ -4,12 +4,11 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Finance\Categories\Entities\CategoryEntity;
-use App\Finance\Categories\Services\CategoryService;
 use App\Finance\Categories\Repositories\CategoryRepository;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class AbstractServiceTest extends TestCase
+class CategoryRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -18,24 +17,23 @@ class AbstractServiceTest extends TestCase
         parent::setUp();
 
         $this->repository = new CategoryRepository(new CategoryEntity);
-        $this->service = new CategoryService($this->repository);
 
         $this->category = Category::factory()->make();
         $this->data = $this->category->toArray();
     }
 
-    public function test_save_method()
+    public function test_create_method()
     {
-        $this->service->save($this->data);
+        $this->repository->create($this->data);
 
         $this->assertDatabaseHas('categories', $this->data);
     }
 
     public function test_find_method()
     {    
-        $category = $this->service->save($this->data);
+        $category = $this->repository->create($this->data);
 
-        $find = $this->service->find($category->id);
+        $find = $this->repository->find($category->id);
 
         $this->assertEquals($category->toArray(), $find->toArray());
         $this->assertDatabaseHas('categories', $find->toArray());
@@ -44,19 +42,19 @@ class AbstractServiceTest extends TestCase
 
     public function test_update_method()
     {
-        $category = $this->service->save($this->data);
+        $category = $this->repository->create($this->data);
         $expected = ['description' => fake()->name];
 
-        $update = $this->service->update($expected, $category->id);
+        $update = $this->repository->update($expected, $category->id);
 
         $this->assertTrue($update);
     }
 
     public function test_delet_method()
     {
-        $category = $this->service->save($this->data);
+        $category = $this->repository->create($this->data);
 
-        $delete = $this->service->delete($category->id);
+        $delete = $this->repository->delete($category->id);
 
         $this->assertTrue($delete);        
     }
