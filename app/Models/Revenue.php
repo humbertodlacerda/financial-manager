@@ -14,6 +14,8 @@ class Revenue extends Model
 
     protected $table = 'revenues';
     protected $fillable = [
+        'user_id',
+        'category_id',
         'date',
         'description',
         'value'
