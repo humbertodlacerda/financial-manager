@@ -3,11 +3,12 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Category;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Finance\Categories\Entities\CategoryEntity;
 use App\Finance\Categories\Services\CategoryService;
 use App\Finance\Categories\Repositories\CategoryRepository;
-use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CategoryServiceTest extends TestCase
 {
@@ -20,6 +21,7 @@ class CategoryServiceTest extends TestCase
         $this->repository = new CategoryRepository(new CategoryEntity);
         $this->service = new CategoryService($this->repository);
 
+        $this->user = User::factory()->create();
         $this->category = Category::factory()->make();
         $this->data = $this->category->toArray();
     }
@@ -52,7 +54,7 @@ class CategoryServiceTest extends TestCase
         $this->assertTrue($update);
     }
 
-    public function test_delet_method()
+    public function test_delete_method()
     {
         $category = $this->service->save($this->data);
 

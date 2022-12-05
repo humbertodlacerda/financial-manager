@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Finance\Categories\Entities\CategoryEntity;
 use App\Finance\Categories\Repositories\CategoryRepository;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CategoryRepositoryTest extends TestCase
@@ -18,6 +19,7 @@ class CategoryRepositoryTest extends TestCase
 
         $this->repository = new CategoryRepository(new CategoryEntity);
 
+        $this->user = User::factory()->create();
         $this->category = Category::factory()->make();
         $this->data = $this->category->toArray();
     }
