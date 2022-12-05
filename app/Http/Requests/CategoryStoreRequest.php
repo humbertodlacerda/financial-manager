@@ -24,6 +24,7 @@ class CategoryStoreRequest extends FormRequest
     public function rules()
     {
         $rules =  [
+            'user_id' => 'required',
             'description' => 'required|string|unique:categories|max:191'
         ];
         

@@ -24,7 +24,7 @@ class RevenueFactory extends Factory
         return [
             'user_id' => fake()->randomElement($user),
             'category_id' => fake()->randomElement($category),
-            'date' => fake()->date,
+            'date' => fake()->dateTimeBetween('now')->format('Y-m-d'),
             'description' => fake()->sentence,
             'value' => fake()->randomFloat(2, 1, 1000)
         ];
