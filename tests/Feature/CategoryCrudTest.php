@@ -21,7 +21,9 @@ class CategoryCrudTest extends TestCase
         parent::setUp();
         
         $this->user = User::factory()->create();
-        $this->category = Category::factory()->for($this->user)->make();
+        $this->category = Category::factory()
+            ->for($this->user)
+            ->make();
     }
 
     public function test_index_category()
@@ -54,7 +56,7 @@ class CategoryCrudTest extends TestCase
         $response = $this->post('/api/category', $this->category->toArray());
         $id = json_decode($response->content(), true)['id'];
 
-        $expected = ['description' => 'updated'];
+        $expected = ['description' => 'category updated'];
         
         $this->put('/api/category/' . $id, $expected)->assertStatus(200);
         $this->get('/api/category/' . $id)->assertSee($expected);
@@ -66,5 +68,6 @@ class CategoryCrudTest extends TestCase
         $id = json_decode($response->content(), true)['id'];
         
         $this->delete('/api/category/' . $id)->assertStatus(200);
+        $this->assertDatabaseCount('categories', 0);
     }
 }
