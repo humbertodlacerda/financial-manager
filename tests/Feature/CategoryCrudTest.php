@@ -28,6 +28,8 @@ class CategoryCrudTest extends TestCase
 
     public function test_index_category()
     {
+        $this->actingAs($this->user);
+
         $this->post('/api/category', $this->category->toArray());
 
         $expected = $this->category->description;
@@ -37,12 +39,16 @@ class CategoryCrudTest extends TestCase
     
     public function test_store_category()
     {
+        $this->actingAs($this->user);
+        
         $this->post('/api/category', $this->category->toArray())->assertStatus(200);
         $this->assertDatabaseHas('categories', $this->category->toArray());
     }
 
     public function test_show_category()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/category', $this->category->toArray());
         $id = json_decode($response->content(), true)['id'];
 
@@ -53,6 +59,8 @@ class CategoryCrudTest extends TestCase
 
     public function test_update_category()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/category', $this->category->toArray());
         $id = json_decode($response->content(), true)['id'];
 
@@ -64,6 +72,8 @@ class CategoryCrudTest extends TestCase
 
     public function test_delete_category()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/category', $this->category->toArray());
         $id = json_decode($response->content(), true)['id'];
         

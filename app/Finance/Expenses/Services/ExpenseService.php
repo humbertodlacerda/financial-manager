@@ -5,6 +5,9 @@ namespace App\Finance\Expenses\Services;
 use Carbon\Carbon;
 use App\Finance\Abstracts\AbstractService;
 use App\Finance\Expenses\Repositories\ExpenseRepository;
+use App\Mail\DueReminderMail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ExpenseService extends AbstractService
 {
@@ -29,5 +32,17 @@ class ExpenseService extends AbstractService
         }
         
         return $data;
+    }
+
+    public function afterSave($entity)
+    {
+        $email = new DueReminderMail(
+            $entity->description,
+            $entity->value
+        );
+        
+        Mail::to(Auth::user())->send($email);
+
+        return $entity;
     }
 }

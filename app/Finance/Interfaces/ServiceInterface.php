@@ -17,4 +17,6 @@ interface ServiceInterface
     public function delete(int $id);
 
     public function beforeSave(array $data);
+
+    public function afterSave($entity);
 }

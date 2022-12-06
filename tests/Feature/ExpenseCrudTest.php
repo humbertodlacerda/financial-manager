@@ -25,6 +25,8 @@ class ExpenseCrudTest extends TestCase
 
     public function test_index_expense()
     {
+        $this->actingAs($this->user);
+        
         $this->post('/api/expense', $this->expense->toArray());
 
         $expected = $this->expense->description;
@@ -34,6 +36,8 @@ class ExpenseCrudTest extends TestCase
 
     public function test_store_expense()
     {
+        $this->actingAs($this->user);
+        
         $this->post('/api/expense', $this->expense->toArray())
             ->assertStatus(200);
         $this->assertDatabaseHas('expenses', $this->expense->toArray());
@@ -41,6 +45,8 @@ class ExpenseCrudTest extends TestCase
 
     public function test_show_expense()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/expense', $this->expense->toArray());
         $id = json_decode($response->content(),true)['id'];
 
@@ -50,6 +56,8 @@ class ExpenseCrudTest extends TestCase
 
     public function test_update_expense()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/expense', $this->expense->toArray());
         $id = json_decode($response->content(),true)['id'];
 
@@ -61,6 +69,8 @@ class ExpenseCrudTest extends TestCase
 
     public function test_delete_expense()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/expense', $this->expense->toArray());
         $id = json_decode($response->content(), true)['id'];
         

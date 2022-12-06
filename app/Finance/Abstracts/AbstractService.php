@@ -46,10 +46,12 @@ class AbstractService implements ServiceInterface
         $data = $this->beforeSave($data);
         
         if (!$data instanceof \Exception) {
-            return $this->repository->create($data);
+            $entity = $this->repository->create($data);
         }
-        
-        return $data;
+
+        $this->afterSave($entity);
+
+        return $entity;
     }
 
     /**
@@ -73,6 +75,11 @@ class AbstractService implements ServiceInterface
     public function delete(int $id)
     {
         return $this->repository->delete($id);
+    }
+
+    public function afterSave($entity)
+    {
+        return $entity;
     }
     
 }

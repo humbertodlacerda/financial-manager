@@ -25,6 +25,8 @@ class RevenueCrudTest extends TestCase
 
     public function test_index_revenue()
     {
+        $this->actingAs($this->user);
+        
         $this->post('/api/revenue', $this->revenue->toArray());
 
         $this->get('/api/revenue')->assertSee($this->revenue->description);
@@ -32,6 +34,8 @@ class RevenueCrudTest extends TestCase
 
     public function test_store_revenue()
     {
+        $this->actingAs($this->user);
+        
         $this->post('/api/revenue', $this->revenue->toArray())
             ->assertStatus(200);
         $this->assertDatabaseHas('revenues', $this->revenue->toArray());
@@ -39,6 +43,8 @@ class RevenueCrudTest extends TestCase
 
     public function test_show_revenue()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/revenue', $this->revenue->toArray());
         $id = json_decode($response->content(), true)['id'];
 
@@ -48,6 +54,8 @@ class RevenueCrudTest extends TestCase
 
     public function test_update_revenue()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/revenue', $this->revenue->toArray());
         $id = json_decode($response->content(), true)['id'];
 
@@ -59,6 +67,8 @@ class RevenueCrudTest extends TestCase
 
     public function test_delete_revenue()
     {
+        $this->actingAs($this->user);
+        
         $response = $this->post('/api/revenue', $this->revenue->toArray());
         $id = json_decode($response->content(), true)['id'];
 
