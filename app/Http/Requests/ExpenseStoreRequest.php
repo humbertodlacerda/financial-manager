@@ -26,7 +26,7 @@ class ExpenseStoreRequest extends FormRequest
         $rules =  [
             'user_id' => 'required',
             'category_id' => 'required',
-            'date' => 'required|date|date_format:Y-m-d',
+            'date' => 'required|date|date_format:Y-m-d|after_or_equal:today|before_or_equal:+12month',
             'description' => 'required|string|max:191',
             'value' => 'required|numeric|min:0'
         ];

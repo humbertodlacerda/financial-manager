@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RevenueStoreRequest extends FormRequest
@@ -23,10 +24,13 @@ class RevenueStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $endOfMonth = Carbon::now()->endOfMonth()->format('Y-m-d');
+
         $rules =  [
             'user_id' => 'required|integer',
             'category_id' => 'required|integer',
-            'date' => 'required|date|date_format:Y-m-d',
+            'date' => 'required|date|date_format:Y-m-d|after_or_equal:today|
+                before_or_equal:'.$endOfMonth,
             'description' => 'required|string|max:191',
             'value' => 'required|numeric|min:0'
         ];

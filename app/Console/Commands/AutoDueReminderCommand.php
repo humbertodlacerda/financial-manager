@@ -45,8 +45,10 @@ class AutoDueReminderCommand extends Command
                 $user->email
             );
 
-            if ($expense->notification_date == $today) {
+            if ($expense->notification_date == $today && $expense->notification_status == 0) {
                 DueReminderJob::dispatch($email);
+                $expense->notification_status = 1;
+                $expense->save();
             }
         }
 

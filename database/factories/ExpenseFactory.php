@@ -28,6 +28,7 @@ class ExpenseFactory extends Factory
             'category_id' => fake()->randomElement($category),
             'date' => $date,
             'notification_date' => Carbon::parse($date)->subDay(1)->format('Y-m-d'),
+            'notification_status' => fake()->boolean(),
             'description' => fake()->sentence,
             'value' => fake()->randomFloat(2, 1, 1000)
         ];

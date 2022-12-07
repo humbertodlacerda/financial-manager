@@ -17,6 +17,7 @@ class Expense extends Model
         'category_id',
         'date',
         'notification_date',
+        'notification_status',
         'description',
         'value'
     ];

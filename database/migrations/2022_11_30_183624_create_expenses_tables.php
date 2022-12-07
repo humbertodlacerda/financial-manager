@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained();
             $table->date('date');
             $table->date('notification_date');
+            $table->boolean('notification_status')->default(0);
             $table->string('description', 191);
             $table->decimal('value');
             $table->timestamps();
