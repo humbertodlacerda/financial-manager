@@ -16,10 +16,8 @@ class AbstractController extends Controller
      */
     public function index()
     {
-        $id = 322;
-        $teste = $this->service->beforeDelete($id);
-        // $response = $this->service->getAll();
-        return response()->json($teste);
+        $response = $this->service->getAll();
+        return response()->json($response);
     }
 
     /**

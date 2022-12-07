@@ -3,11 +3,12 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class DueReminderMail extends Mailable
 {
@@ -20,7 +21,8 @@ class DueReminderMail extends Mailable
      */
     public function __construct(
         public string $expenseDescription,
-        public float $expenseValue
+        public float $expenseValue,
+        public string $user
     )
     {
         //
@@ -34,6 +36,7 @@ class DueReminderMail extends Mailable
     public function envelope()
     {
         return new Envelope(
+            from: new Address('contato@example.com', 'Humberto Lacerda'),
             subject: 'Due Reminder Mail',
         );
     }

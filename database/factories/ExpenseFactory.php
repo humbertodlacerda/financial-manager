@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,11 +21,13 @@ class ExpenseFactory extends Factory
     {
         $user = User::all()->pluck('id');
         $category = Category::all()->pluck('id');
+        $date = fake()->dateTimeBetween('now')->format('Y-m-d');
 
         return [
             'user_id' => fake()->randomElement($user),
             'category_id' => fake()->randomElement($category),
-            'date' => fake()->dateTimeBetween('now')->format('Y-m-d'),
+            'date' => $date,
+            'notification_date' => Carbon::parse($date)->subDay(1)->format('Y-m-d'),
             'description' => fake()->sentence,
             'value' => fake()->randomFloat(2, 1, 1000)
         ];
