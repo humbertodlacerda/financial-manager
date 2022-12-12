@@ -4,23 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
@@ -43,8 +34,8 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials) === false) {
-            return response()->json('Unauthorized', 401);
+        if (Auth::attempt($request->only('email', 'password'))) {
+            throw new AuthenticationException();
         }
 
         $user = Auth::user();
@@ -52,10 +43,23 @@ class LoginController extends Controller
         return response()->json($token->plainTextToken);
     }
 
-    public function logout()
+    public function register(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
 
+        $user->save();
+    }
+
+    public function logout(Request $request)
+    {
+       Auth::logout();
+
+       $request->session()->invalidate();
+       $request->session()->regenerateToken();
+       
         return response()->json([], 200);
     }
 }

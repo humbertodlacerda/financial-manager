@@ -1,22 +1,29 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\CategoryController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\RevenueController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
-Route::prefix('auth')->group(function () {
-    Route::post('login', [LoginController::class, 'login']);
-    Route::post('register', [RegisterController::class, 'create']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
-Route::middleware('auth:sanctum', 'auth.session')->group(function() {
+Route::controller(AuthController::class)->group(function() {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+});
+
+Route::middleware('auth:sanctum')->group(function() {
     Route::apiResources([
         'category' => CategoryController::class,
         'revenue' => RevenueController::class,
-        'expense' => ExpenseController::class
+        'expense' => ExpenseController::class,
     ]);
     Route::post('auth/logout', [LoginController::class, 'logout']);
 });
